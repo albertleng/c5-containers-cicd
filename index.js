@@ -4,6 +4,7 @@ const s3 = new AWS.S3();
 if (process.env.GITHUB_ACTIONS) {
     console.log("Github actions running")
     console.log("IMAGE_NAME: ", process.env.IMAGE_NAME)
+    console.log("ECR_ENDPOINT: ", process.env.ECR_ENDPOINT)
     console.log("AWS_ACCESS_KEY_ID: ", process.env.aws-access-key-id)
     console.log("AWS_SECRET_ACCESS_KEY: ", process.env.AWS_SECRET_ACCESS_KEY)
     console.log("AWS_REGION: ", process.env.AWS_REGION)
