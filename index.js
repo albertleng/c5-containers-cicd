@@ -59,7 +59,7 @@ module.exports.postHandlerTwo = async (event) => {
     }
 
     // Create a new S3 bucket
-    const baseName = 'albertbucket';
+    const baseName = 'albertbuck';
     const uuid = uuidv4().toLowerCase().replace(/_/g, '1');
     const bucketName = baseName + uuid.substring(0, 63 - baseName.length);
     const bucketParams = {
