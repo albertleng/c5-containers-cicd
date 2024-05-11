@@ -20,7 +20,7 @@ jobs:
     needs: install-dependencies
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run installation of dependencies commands
         run: npm install
       - name: Run unit testing command
@@ -31,7 +31,7 @@ jobs:
     needs: install-dependencies
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run vulnerability scan
         run: |
           echo "To do"
@@ -42,7 +42,7 @@ jobs:
     needs: [code-unit-testing, code-vulnerability-scanning]
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
