@@ -17,6 +17,15 @@ module.exports.handlerTwo = async (event) => {
     };
 };
 
+function isJSONParsable(string) {
+    try {
+        JSON.parse(string);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 module.exports.postHandlerTwo = async (event) => {
     console.log('POST method');
     console.log(event);
@@ -26,7 +35,13 @@ module.exports.postHandlerTwo = async (event) => {
     // Extract the body from the event
     let body;
     try {
-        body = JSON.parse(event.body);
+        // add a check for event.body. If event.body is not parsable by JSON, body = event.body, else parse it
+        let eventBody = event.body;
+        if (isJSONParsable(eventBody)) {
+            body = JSON.parse(eventBody);
+        } else {
+            body = null;
+        }
     } catch (error) {
         console.error('Failed to parse JSON: ', error);
         return {
