@@ -1,0 +1,23 @@
+{
+  "name": "c5-containers-cicd",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Albert Leng",
+  "license": "ISC",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/albertleng/c5-containers-cicd.git"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1618.0",
+    "aws-sdk-mock": "^5.9.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
