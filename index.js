@@ -1,6 +1,14 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 
+if (process.env.GITHUB_ACTIONS) {
+    AWS.config.update({
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: process.env.AWS_REGION
+    });
+}
+
 module.exports.handlerTwo = async (event) => {
     console.log('GET method');
     console.log(event);
