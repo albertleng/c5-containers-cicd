@@ -1,0 +1,5 @@
+ecs_cluster_name = "albertleng-ecs-cluster-uat"
+ecs_service_name = "albertleng-ecs-service-uat"
+ecs_task_defn_family = "albertleng-ecs-task-def-uat"
+ecs_container_name = "albertleng-container-uat"
+ecs_port_name = "albertleng-3000-tcp-uat"

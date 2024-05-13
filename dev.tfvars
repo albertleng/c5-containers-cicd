@@ -1,0 +1,5 @@
+ecs_cluster_name = "albertleng-ecs-cluster-dev"
+ecs_service_name = "albertleng-ecs-service-dev"
+ecs_task_defn_family = "albertleng-ecs-task-def-dev"
+ecs_container_name = "albertleng-container-dev"
+ecs_port_name = "albertleng-3000-tcp-dev"

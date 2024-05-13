@@ -1,35 +1,79 @@
-name: ECS Continuous Deployment
-run-name: ${{ github.actor }} is running deployment on GitHub Actions 🚀
+name: ECS Cluster Creation, Deployment and Destruction
+run-name: ${{ github.actor }} is making changes to ECS via GitHub Actions 🚀
 on:
   workflow_dispatch:
     inputs:
       target_env:
         type: environment
         description: Select the environment
+      action:
+        type: choice
+        options:
+          - create
+          - destroy
+          - deploy
+        description: Select the action, whether to create or destroy ECS cluster
   workflow_call:
     inputs:
       target_env:
         type: string
         required: true
-
+      action:
+        type: string
+        required: true
 jobs:
-  pre-deploy-step:
+  pre-action-step:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: print environment
+      - name: print environment and action
         run: |
           echo "env selected is ${{ inputs.target_env }}"
+          echo "action selected is ${{ inputs.action }}"
 
-  deploy-step:
+  create-or-delete-ecs-cluster:
+    needs: [pre-action-step]
     runs-on: ubuntu-latest
 
     steps:
-      - name: deploy image to server
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform workspace list
+        run: terraform workspace list
+
+      - name: Terraform workspace new environment and select
         run: |
-          echo "Deploying image..."
-          echo "Deploying image..."
-          echo "Deploying image..."
-          echo "Deployed successfully!"
+          terraform workspace select ${{ inputs.target_env }} || terraform workspace new ${{ inputs.target_env }}
+          terraform workspace list
+
+      - name: Terraform apply or destroy
+        run: |
+          if [ "${{ inputs.action }}" = "create" ] || [ "${{ inputs.action }}" = "deploy"  ]; then
+            terraform plan -var-file=${{ inputs.target_env }}.tfvars
+            terraform apply -var-file=${{ inputs.target_env }}.tfvars --auto-approve
+          elif [ "${{ inputs.action }}" = "destroy" ]; then
+            terraform destroy -var-file=${{ inputs.target_env }}.tfvars -auto-approve
+          fi
+
+  summary:
+    needs: [create-or-delete-ecs-cluster]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Adding markdown
+        run: |
+          echo '## 🚀 Preparing Summary 🚀' >> $GITHUB_STEP_SUMMARY
+          echo '### Action ran: ${{ inputs.action }}'  >> $GITHUB_STEP_SUMMARY
+          echo '### Environment chosen: ${{ inputs.target_env }}'  >> $GITHUB_STEP_SUMMARY
+          echo '### Outcome: Successful 🚀'  >> $GITHUB_STEP_SUMMARY
