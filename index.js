@@ -1,5 +1,19 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
+const express = require('express');
+
+const app = express();
+const PORT = 3001;
+
+app.get('/', (req, res) => {
+    res.send('Hello, world!');
+});
+
+const server = app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+module.exports = server;
 
 if (process.env.GITHUB_ACTIONS) {
     AWS.config.update({

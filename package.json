@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1618.0",
-    "aws-sdk-mock": "^5.9.0"
+    "aws-sdk-mock": "^5.9.0",
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",

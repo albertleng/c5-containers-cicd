@@ -2,6 +2,18 @@ const AWS = require('aws-sdk');
 const AWSMock = require('aws-sdk-mock');
 const {handlerTwo, postHandlerTwo} = require('./index');
 
+const request = require('supertest');
+const app = require('./index');
+
+describe('GET /', () => {
+    it('responds with "Hello, world!"', async () => {
+        const response = await request(app).get('/');
+        expect(response.status).toBe(200);
+        expect(response.text).toBe('Hello, world!');
+    });
+});
+
+
 describe('handlerTwo', () => {
     it('returns a successful response with the event', async () => {
         const event = {key: 'value'};
