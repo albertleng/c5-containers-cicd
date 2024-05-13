@@ -67,5 +67,5 @@ variable "ecr_url" {
 variable "ecr_image_name" {
     description = "ECR image name"
     type        = string
-    default     = "albertleng-node-app"
+    default     = "albert_leng_zai"
 }
